@@ -3,7 +3,7 @@ import "./App.css";
 import { CommonLayout } from '@/layouts/CommonLayout';
 import { PodcastEpisodeInformation } from '@/components/PodcastEpisodeInformation';
 import { PodcastInformation } from '@/components/PodcastInformation';
-import { PodcasList } from '@/components/PodcastList';
+import { PodcastList } from '@/components/PodcastList';
 import { PodcastLayout } from '@/layouts/PodcastLayout';
 
 
@@ -14,7 +14,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <PodcasList />,
+        element: <PodcastList />,
       },
       {
         path: "podcast/:id",

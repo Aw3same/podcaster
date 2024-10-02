@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-export function PodcasList() {
+export function PodcastList() {
   return <div>PodcastList
     <ul>
         <li><Link to="/podcast/1">Podcast 1</Link></li>
