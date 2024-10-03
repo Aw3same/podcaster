@@ -32,7 +32,7 @@ export function PodcastInformation() {
     <div className="">
       <div className=' bg-slate-100 p-2 w-full flex items-center justify-center rounded-sm'>
         <div className='flex items-center p-2 bg-white rounded-sm text-left w-full font-bold text-xl'>            
-            <h3>Epidodes: {podcastDetailInfo.detail.trackCount}</h3>
+            <h3>Epidodes: {podcastDetailInfo?.detail?.trackCount}</h3>
         </div>
       </div>
       <div className=' bg-slate-100 p-2 w-full flex items-center justify-center rounded-sm'>

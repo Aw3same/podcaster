@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { PodcastListItem } from '@/components/PodcastListItem';
 
 export function PodcastList() {
-  const { podcasts, filteredPodcasts, filterText, fetchPodcasts, setFilterText } = usePodcastStore();
+  const { filteredPodcasts, filterText, fetchPodcasts, setFilterText } = usePodcastStore();
 
   useEffect(() => {
     fetchPodcasts();
@@ -12,7 +12,7 @@ export function PodcastList() {
   return (
     <div className='flex flex-col space-y-10'>
       <div className='flex justify-end space-x-2 p-1 mb-10'>
-        <p className='bg-blue-400 rounded-lg p-2'>{podcasts.length}</p>
+        <p className='bg-blue-400 rounded-lg p-2 text-white font-bold'>{filteredPodcasts.length}</p>
         <input
           className='rounded-lg p-2 border shadow-md'
           type="text"
