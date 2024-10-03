@@ -9,9 +9,11 @@ interface PodcastStore {
   filterText: string
   lastFetchDate: Date | null
   podcastDetails: Record<string, { detail: PodcastDetail, lastFetchDate: Date }>
+  selectedPodcast: Entry | null 
   fetchPodcasts: () => Promise<void>
   setFilterText: (text: string) => void
   fetchPodcastDetail: (podcastId: string) => Promise<PodcastDetail>
+  setSelectedPodcast: (podcast: Entry | null) => void
 }
 
 export const usePodcastStore = create(
@@ -22,6 +24,7 @@ export const usePodcastStore = create(
       filterText: '',
       lastFetchDate: null,
       podcastDetails: {},
+      selectedPodcast: null, 
       fetchPodcasts: async () => {
         const currentDate = new Date()
         const { lastFetchDate } = get()
@@ -59,6 +62,9 @@ export const usePodcastStore = create(
           return fetchedDetail
         }
         return cachedDetail.detail
+      },
+      setSelectedPodcast: (podcast) => {
+        set({ selectedPodcast: podcast })
       }
     }),
     {
