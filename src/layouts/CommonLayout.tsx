@@ -1,13 +1,15 @@
+import { Footer } from '@/components/Footer';
+import { Navbar } from '@/components/Navbar';
 import { Outlet } from "react-router-dom";
 
 export function CommonLayout() {
   return (
     <div className="flex flex-col h-screen">
-      <header>header</header>
-      <main className="flex-1 overflow-y-auto p-8">
+      <Navbar />
+      <main className="flex-1 p-8 max-w-screen-2xl">
         <Outlet />
       </main>
-      <footer>footer</footer>
+      <Footer />
     </div>
   );
 }
