@@ -20,9 +20,9 @@ function convertMillisecondsToTime(ms: number) {
 }
 
 export function EpisodesTable({episodes}: { episodes: PodcastEpisode[]}) {
-  const { setPodcastEpisode } = usePodcastStore();
+  const { setEpisodeDetail } = usePodcastStore();
   const handleEpisodeClick = (episode: PodcastEpisode) => {
-    setPodcastEpisode(episode);
+    setEpisodeDetail(episode);
   };
     return (
       <div className="overflow-x-auto w-full">

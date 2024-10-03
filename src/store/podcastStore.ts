@@ -16,7 +16,7 @@ interface PodcastStore {
   setFilterText: (text: string) => void
   fetchPodcastDetail: (podcastId: string) => Promise<void>
   setPodcastDetail: (podcast: Entry | null) => void
-  setPodcastEpisode: (episode: PodcastEpisode | null) => void
+  setEpisodeDetail: (episode: PodcastEpisode | null) => void
 }
 
 export const usePodcastStore = create(
@@ -73,7 +73,7 @@ export const usePodcastStore = create(
       setPodcastDetail: (podcast) => {
         set({ podcastDetail: podcast })
       },
-      setPodcastEpisode: (episode) => {
+      setEpisodeDetail: (episode) => {
         set({ episodeDetail: episode })
       }
     }),

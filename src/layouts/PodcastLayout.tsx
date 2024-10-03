@@ -12,7 +12,7 @@ export function PodcastLayout() {
   }, [id, fetchPodcastDetail]);
 
   if (!podcastDetail) {
-    return <div>Cargando...</div>;
+    return <div>Loading...</div>;
   }
 
   return (
