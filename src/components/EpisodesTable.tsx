@@ -1,8 +1,29 @@
-import { Episode } from '@/types/episode';
+import { usePodcastStore } from '@/store/podcastStore';
+import { PodcastEpisode } from '@/types/podcastEpisode';
 import { Link } from 'react-router-dom';
 
-export function EpidodesTable({episodes}: { episodes: Episode[]}) {
+function convertMillisecondsToTime(ms: number) {
+  const totalSeconds = Math.floor(ms / 1000); // 1 second = 1000 miliseconds
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
 
+  const formattedMinutes = String(minutes).padStart(2, '0');
+  const formattedSeconds = String(seconds).padStart(2, '0');
+
+  if (hours > 0) {
+    const formattedHours = String(hours).padStart(2, '0');
+    return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+  } else {
+    return `${formattedMinutes}:${formattedSeconds}`;
+  }
+}
+
+export function EpisodesTable({episodes}: { episodes: PodcastEpisode[]}) {
+  const { setPodcastEpisode } = usePodcastStore();
+  const handleEpisodeClick = (episode: PodcastEpisode) => {
+    setPodcastEpisode(episode);
+  };
     return (
       <div className="overflow-x-auto w-full">
         <table className="min-w-full table-auto border-collapse">
@@ -14,19 +35,23 @@ export function EpidodesTable({episodes}: { episodes: Episode[]}) {
             </tr>
           </thead>
           <tbody>
-            {episodes.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+            {episodes.sort((a, b) => new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime())
             .map((episode, index) => (
               <tr
-                key={episode.id}
+                key={episode.trackId}
                 className={`${
                   index % 2 === 0 ? 'bg-white' : 'bg-gray-100'
                 } hover:bg-blue-100 transition duration-200`}
               >
                 <td className="px-6 py-3  text-blue-600 font-medium">
-                  <Link to={`episode/${episode.id}`}>{episode.title}</Link>
+                  <Link 
+                    to={`episode/${episode.trackId}`}  
+                    onClick={() => handleEpisodeClick(episode)}>
+                      {episode.trackName}
+                  </Link>
                 </td>
-                <td className="px-6 py-3 font-normal text-gray-600">{episode.date}</td>
-                <td className="px-6 py-3 font-normal text-gray-600">{episode.duration}</td>
+                <td className="px-6 py-3 font-normal text-gray-600">{new Date(episode.releaseDate).toLocaleDateString()}</td>
+                <td className="px-6 py-3 font-normal text-gray-600 text-right">{convertMillisecondsToTime(episode.trackTimeMillis)}</td>
               </tr>
             ))}
           </tbody>

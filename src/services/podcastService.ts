@@ -1,5 +1,5 @@
 import { Entry } from '@/types/podcast';
-import { PodcastDetail } from '@/types/podcastDetail';
+import { PodcastEpisode } from '@/types/podcastEpisode';
 const CORS_PROXY_URL = 'https://cors-anywhere.herokuapp.com/'
 
 export async function getPodcasts(): Promise<Entry[]> {
@@ -9,10 +9,10 @@ export async function getPodcasts(): Promise<Entry[]> {
   return podcasts.feed.entry
 }
 
-export async function getPodcastDetail(podcastId: string): Promise<PodcastDetail> {
-  const PODCAST_DETAIL_URL = CORS_PROXY_URL + `https://itunes.apple.com/lookup?id=${podcastId}`
+export async function getPodcastEpisodes(podcastId: string): Promise<PodcastEpisode[]> {
+  const PODCAST_DETAIL_URL = CORS_PROXY_URL + `https://itunes.apple.com/lookup?id=${podcastId}&entity=podcastEpisode`
   const response = await fetch(PODCAST_DETAIL_URL)
   const podcastDetails = await response.json()
-  return podcastDetails.results[0]
+  return podcastDetails.results
 }
 

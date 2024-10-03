@@ -1,19 +1,22 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware'
 import { Entry } from '@/types/podcast';
-import { getPodcastDetail, getPodcasts } from '@/services/podcastService';
-import { PodcastDetail } from '@/types/podcastDetail';
+import { getPodcastEpisodes, getPodcasts } from '@/services/podcastService';
+import { PodcastEpisode } from '@/types/podcastEpisode';
+
 interface PodcastStore {
   podcasts: Entry[]
   filteredPodcasts: Entry[]
   filterText: string
-  lastFetchDate: Date | null
-  podcastDetails: Record<string, { detail: PodcastDetail, lastFetchDate: Date }>
-  selectedPodcast: Entry | null 
+  lastFetchDate: string | null
+  podcastDetail: Entry | null
+  podcastEpisodes: Record<string, { episodes: PodcastEpisode[], lastFetchDate: string }>
+  episodeDetail: PodcastEpisode | null
   fetchPodcasts: () => Promise<void>
   setFilterText: (text: string) => void
-  fetchPodcastDetail: (podcastId: string) => Promise<PodcastDetail>
-  setSelectedPodcast: (podcast: Entry | null) => void
+  fetchPodcastDetail: (podcastId: string) => Promise<void>
+  setPodcastDetail: (podcast: Entry | null) => void
+  setPodcastEpisode: (episode: PodcastEpisode | null) => void
 }
 
 export const usePodcastStore = create(
@@ -23,15 +26,22 @@ export const usePodcastStore = create(
       filteredPodcasts: [],
       filterText: '',
       lastFetchDate: null,
-      podcastDetails: {},
-      selectedPodcast: null, 
+      podcastDetail: null,
+      podcastEpisodes: {},
+      episodeDetail: null,
       fetchPodcasts: async () => {
         const currentDate = new Date()
         const { lastFetchDate } = get()
         
-        if (!lastFetchDate || currentDate.getTime() - lastFetchDate?.getTime() > 24 * 60 * 60 * 1000) {
+        const lastFetchDateObj = lastFetchDate ? new Date(lastFetchDate) : null
+        
+        if (!lastFetchDateObj || currentDate.getTime() - lastFetchDateObj.getTime() > 24 * 60 * 60 * 1000) {
           const fetchedPodcasts = await getPodcasts()
-          set({ podcasts: fetchedPodcasts, filteredPodcasts: fetchedPodcasts, lastFetchDate: currentDate })
+          set({ 
+            podcasts: fetchedPodcasts, 
+            filteredPodcasts: fetchedPodcasts, 
+            lastFetchDate: currentDate.toISOString()
+          })
         }
       },
       setFilterText: (text) => {
@@ -45,26 +55,26 @@ export const usePodcastStore = create(
       },
       fetchPodcastDetail: async (podcastId: string) => {
         const currentDate = new Date()
-        const { podcastDetails } = get()
-        const cachedDetail = podcastDetails[podcastId]
+        const { podcastEpisodes } = get()
+        const cachedEpisodes = podcastEpisodes[podcastId]
         
-        // Verificar si cachedDetail existe y si lastFetchDate es una fecha válida
-        const cachedDate = cachedDetail?.lastFetchDate ? new Date(cachedDetail.lastFetchDate) : null
+        const cachedDate = cachedEpisodes?.lastFetchDate ? new Date(cachedEpisodes.lastFetchDate) : null
         
-        if (!cachedDetail || !cachedDate || currentDate.getTime() - cachedDate.getTime() > 24 * 60 * 60 * 1000) {
-          const fetchedDetail = await getPodcastDetail(podcastId)
+        if (!cachedEpisodes || !cachedDate || currentDate.getTime() - cachedDate.getTime() > 24 * 60 * 60 * 1000) {
+          const fetchedDetail = await getPodcastEpisodes(podcastId)
           set({ 
-            podcastDetails: { 
-              ...podcastDetails, 
-              [podcastId]: { detail: fetchedDetail, lastFetchDate: currentDate } 
+            podcastEpisodes: { 
+              ...podcastEpisodes, 
+              [podcastId]: { episodes: fetchedDetail, lastFetchDate: currentDate.toISOString() }
             } 
           })
-          return fetchedDetail
         }
-        return cachedDetail.detail
       },
-      setSelectedPodcast: (podcast) => {
-        set({ selectedPodcast: podcast })
+      setPodcastDetail: (podcast) => {
+        set({ podcastDetail: podcast })
+      },
+      setPodcastEpisode: (episode) => {
+        set({ episodeDetail: episode })
       }
     }),
     {
