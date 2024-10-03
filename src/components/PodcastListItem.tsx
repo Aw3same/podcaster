@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 
 
 export function PodcastListItem({podcast}: {podcast: Entry}) {
-    const { setSelectedPodcast } = usePodcastStore();
+    const { setPodcastDetail } = usePodcastStore();
     const handlePodcastClick = (podcast: Entry) => {
-        setSelectedPodcast(podcast); // Establecer el podcast seleccionado
+        setPodcastDetail(podcast); 
       };
     return (
     <li className="relative flex flex-col items-center">
