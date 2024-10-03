@@ -5,8 +5,7 @@ const createMarkup = (html: string): { __html: string } => {
   return { __html: DOMPurify.sanitize(html) };
 }
 export function PodcastEpisodeInformation() {
-  const { episodeDetail } = usePodcastStore();
-  
+  const { episodeDetail } = usePodcastStore();  
 
   return    (  
   <div className=' bg-slate-100 p-2 w-full flex items-center justify-center rounded-sm'>
