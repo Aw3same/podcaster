@@ -1,31 +1,29 @@
-import {usePodcastStore} from '@/store/podcastStore';
+import {usePodcastStore} from '@/store/podcastStore';;
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { PodcastListItem } from '@/components/PodcastListItem';
 
 export function PodcastList() {
-  const { filteredPodcasts, filterText, fetchPodcasts, setFilterText } = usePodcastStore();
+  const { podcasts, filteredPodcasts, filterText, fetchPodcasts, setFilterText } = usePodcastStore();
 
   useEffect(() => {
     fetchPodcasts();
   }, []);
 
   return (
-  <div>
-      <input
-        type="text"
-        value={filterText}
-        onChange={(e) => setFilterText(e.target.value)}
-        placeholder="Filtrar podcasts..."
-      />
-      <ul>
+    <div className='flex flex-col space-y-10'>
+      <div className='flex justify-end space-x-2 p-1 mb-10'>
+        <p className='bg-blue-400 rounded-lg p-2'>{podcasts.length}</p>
+        <input
+          className='rounded-lg p-2 border shadow-md'
+          type="text"
+          value={filterText}
+          onChange={(e) => setFilterText(e.target.value)}
+          placeholder="Filtrar podcasts..."
+          />
+      </div>
+      <ul className='grid grid-cols-4 gap-16'>
         {filteredPodcasts.map((podcast) => (
-          <li key={podcast.id.attributes['im:id']}>
-            <Link to={`/podcast/${podcast.id.attributes['im:id']}`}>
-              <img src={podcast['im:image'][0].label} alt={podcast.title.label} />
-              <h3>{podcast.title.label}</h3>
-              <p>Autor: {podcast['im:artist'].label}</p>
-            </Link>
-          </li>
+          <PodcastListItem podcast={podcast}  key={podcast.id.attributes['im:id']} />
         ))}
       </ul>
     </div>
