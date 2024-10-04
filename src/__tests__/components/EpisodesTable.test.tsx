@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import { EpisodesTable } from './EpisodesTable';
-import { mockEpisodes } from '../../__mocks__/episodes';
 import { usePodcastStore } from '@/store/podcastStore';
+import { EpisodesTable } from '@/components/EpisodesTable';
+import { mockEpisodes } from '../../../__mocks__/episodes';
+
 
 jest.mock('@/store/podcastStore');
 jest.mock('react-router-dom', () => ({

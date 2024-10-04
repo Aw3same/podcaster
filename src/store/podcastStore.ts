@@ -4,7 +4,7 @@ import { Entry } from '@/types/podcast';
 import { getPodcastEpisodes, getPodcasts } from '@/services/podcastService';
 import { PodcastEpisode } from '@/types/podcastEpisode';
 
-interface PodcastStore {
+export interface PodcastStore {
   podcasts: Entry[]
   filteredPodcasts: Entry[]
   filterText: string

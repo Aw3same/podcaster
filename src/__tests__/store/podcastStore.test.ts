@@ -1,7 +1,7 @@
 // podcastStore.test.ts
 import { renderHook, act } from '@testing-library/react'
-import { usePodcastStore } from './podcastStore';
-import { testEpisode } from '../../__mocks__/episodes';
+import { usePodcastStore } from '@/store/podcastStore';
+import { testEpisode } from '../../../__mocks__/episodes';
 
 describe('podcastStore', () => {
   it('should set filter text', () => {

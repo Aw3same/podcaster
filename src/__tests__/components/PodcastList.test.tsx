@@ -1,9 +1,9 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { PodcastList } from "./PodcastList";
+import { PodcastList } from "@/components/PodcastList";
 import { MemoryRouter } from 'react-router-dom';
 import { Entry } from '@/types/podcast';
 import { usePodcastStore } from '@/store/podcastStore';
-import { testPodcastList } from '../../__mocks__/podcast';
+import { testPodcastList } from '../../../__mocks__/podcast';
 
 // Mockeamos el módulo de Zustand
 jest.mock('@/store/podcastStore');

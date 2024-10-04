@@ -8,9 +8,7 @@ const NavigationIndicator = () => {
   if (!isNavigating) return null;
 
   return (
-    <div className='size-8 bg-blue-400 rounded-full animate-blink'>
-     
-    </div>
+    <div className='size-8 bg-blue-400 rounded-full animate-blink'  data-testid="navigation-indicator" />   
   );
 };
 
